@@ -46,16 +46,21 @@ class ReadersWritersMonitor:
         """
         Called before a reader starts reading.
         Block the reader if a writer is writing.
-
         TODO:
         1. Acquire the condition using 'with self.condition:'.
         2. Wait while a writer is active.
         3. Increase active_readers.
         4. Print a useful log message.
         """
+        
         with self.condition:
             # TODO: Replace 'pass' with your logic
-            pass
+            while self.active_writers > 0:
+                print(f"Reader {reader_id} waiting to read...")
+                self.condition.wait()
+
+            self.active_readers += 1
+            print(f"Reader {reader_id} has started reading. Active readers: {self.active_readers}")
 
     def end_read(self, reader_id: int) -> None:
         """
