@@ -58,7 +58,6 @@ class ReadersWritersMonitor:
             while self.active_writers > 0:
                 print(f"Reader {reader_id} waiting to read...")
                 self.condition.wait()
-
             self.active_readers += 1
             print(f"Reader {reader_id} has started reading. Active readers: {self.active_readers}")
 
@@ -73,7 +72,10 @@ class ReadersWritersMonitor:
         """
         with self.condition:
             # TODO: Replace 'pass' with your logic
-            pass
+            self.active_readers -= 1
+            print(f"Reader {reader_id} has stopped reading. Active readers: {self.active_readers}")
+            if self.active_readers == 0:
+                self.condition.notify_all()
 
     def start_write(self, writer_id: int) -> None:
         """
