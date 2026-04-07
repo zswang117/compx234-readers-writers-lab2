@@ -168,27 +168,26 @@ def main() -> None:
     random.seed(42)
 
     monitor = ReadersWritersMonitor()
-
-    #TODO: Create at least 3 Reader threads.
-    readers = [
-        Reader(reader_id=1, monitor=monitor)
-    ]
     
-    #TODO: Create at least 2 writer threads.
-    writers = [
-        Writer(writer_id=1, monitor=monitor)
-    ]
+    #TODO: Create at least 3 Reader threads.
+    readers = [Reader(1, monitor), Reader(2, monitor), Reader(3, monitor)]
+    writers = [Writer(1, monitor), Writer(2, monitor)]
 
     all_threads = readers + writers
     
     # TODO: Start all threads
-
+    for t in all_threads:
+        t.start()
+    for t in all_threads:
+        t.join()
     
     # TODO: Wait for all threads to finish
-
+    
 
     # TODO: Print final message that simulation completed
-
+    print("==================================================")
+    print("Simulation completed successfully.")
+    print("==================================================")
 
 if __name__ == "__main__":
     main()
